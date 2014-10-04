@@ -10,28 +10,20 @@
 
 @implementation Card
 
-#pragma mark - Abstract
-
-- (int)match:(NSArray *)otherCards
-{
-    RaiseInvalidAbstractInvocation();
-    return 0;
-}
-
-#pragma mark - Initialization
-
-- (id)init
-{
-    RaiseInvalidAbstractInstantiationForClass([Card class]);
-    self = [super init];
-    return self;
-}
-
-#pragma mark - Methods
-
 - (NSString *)description
 {
     return self.contents;
+}
+
+- (int)match:(NSArray *)otherCards
+{
+    int score = 0;
+    for (Card *card in otherCards) {
+        if ([card.contents isEqualToString:self.contents]) {
+            score = 1;
+        }
+    }
+    return score;
 }
 
 @end

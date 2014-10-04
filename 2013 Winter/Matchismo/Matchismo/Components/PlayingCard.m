@@ -72,27 +72,12 @@ NSString * const PlayingCardSymbolClubs = @"♣";
 - (int)match:(NSArray *)otherCards
 {
     int score = 0;
-    BOOL(^isSameSuit)(id, NSUInteger, BOOL*);
-    BOOL(^isSameRank)(id, NSUInteger, BOOL*);
-    
-    if ([otherCards count] > 0) {
-        // Define the matching block conditions
-        isSameSuit = ^(id obj, NSUInteger idx, BOOL *stop) {
-            return (BOOL)([obj isKindOfClass:[PlayingCard class]]? [self.suit isEqualToString:[obj suit]] : NO);
-        };
-        isSameRank = ^(id obj, NSUInteger idx, BOOL *stop) {
-            return (BOOL)([obj isKindOfClass:[PlayingCard class]]? self.rank == [obj rank] : NO);
-        };
-        
-        // Does suit or rank match in all cards?
-        BOOL suitsMatch = ([otherCards count] == [[otherCards indexesOfObjectsPassingTest:isSameSuit] count]);
-        BOOL ranksMatch = ([otherCards count] == [[otherCards indexesOfObjectsPassingTest:isSameRank] count]);
-        
-        // Give out points
-        if (suitsMatch) {
-            score = 1;
-        } else if (ranksMatch) {
+    if ([otherCards count] == 1) {
+        PlayingCard *otherCard = [otherCards firstObject];
+        if (otherCard.rank == self.rank) {
             score = 4;
+        } else if (otherCard.suit == self.suit) {
+            score = 1;
         }
     }
     return score;
